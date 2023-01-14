@@ -32,4 +32,5 @@
 *.app
 
 # subfolder
-x64
+MFCPP20MODULES/x64/
+
