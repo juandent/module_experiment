@@ -9,11 +9,12 @@ module;
 export module persistent_passwords;
 
 
-import util;
+export import util;
 export import date_binding;
 
 
-export {
+export namespace persistent_passwords
+{
 	using namespace std::string_literals;
 
 	enum class AcknowledgementType
@@ -76,44 +77,40 @@ export {
 	///
 	///
 
-	namespace orm
+	using namespace sqlite_orm;
+	using namespace std::chrono;
+	using namespace std;
+
+	inline auto& database()
 	{
 		using namespace sqlite_orm;
 		using namespace std::chrono;
 		using namespace std;
+		static constexpr const char* db_name{ "C:\\Users\\juan_\\OneDrive\\Tokens\\Client.sqlite" };
 
-		inline auto& storage()
+		static int flag = 0;
+
+		static auto storage =
+			make_storage(db_name,
+				make_table("Location",
+					make_column("id_location", &Location::id, primary_key().autoincrement()),
+					make_column("name", &Location::name),
+					make_column("url", &Location::url),
+					make_column("email", &Location::email)),
+				make_table("Password",
+					make_column("id_password", &Password::id, primary_key().autoincrement()),
+					make_column("password", &Password::password),
+					make_column("begin_date", &Password::begining_date),
+					make_column("fkey_location", &Password::fkey_location),
+					foreign_key(&Password::fkey_location).references(&Location::id)));
+
+
+		if (flag == 0)
 		{
-			using namespace sqlite_orm;
-			using namespace std::chrono;
-			using namespace std;
-			static constexpr const char* db_name{ "C:\\Users\\juan_\\OneDrive\\Tokens\\Client.sqlite" };
-
-			static int flag = 0;
-
-			static auto storage =
-				make_storage(db_name,
-					make_table("Location",
-						make_column("id_location", &Location::id, primary_key().autoincrement()),
-						make_column("name", &Location::name),
-						make_column("url", &Location::url),
-						make_column("email", &Location::email)),
-					make_table("Password",
-						make_column("id_password", &Password::id, primary_key().autoincrement()),
-						make_column("password", &Password::password),
-						make_column("begin_date", &Password::begining_date),
-						make_column("fkey_location", &Password::fkey_location),
-						foreign_key(&Password::fkey_location).references(&Location::id)));
-
-
-			if (flag == 0)
-			{
-				flag = 1;
-				storage.sync_schema(true);
-			}
-
-			return storage;
+			flag = 1;
+			storage.sync_schema(true);
 		}
 
+		return storage;
 	}
 }

@@ -28,10 +28,11 @@ import persistent_passwords;
 void use()
 {
 	using namespace sqlite_orm;
+	using namespace persistent_passwords;
 
-	orm::storage().sync_schema();
+	database().sync_schema();
 	Location loc{ -1, "cpp_reference", "cpp_reference.com", "daniel@cpp_reference.com" };
-	orm::storage().insert(loc);
+	database().insert(loc);
 	
 	Money mny;
 }
