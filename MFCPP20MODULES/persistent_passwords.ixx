@@ -11,6 +11,7 @@ export module persistent_passwords;
 
 export import util;
 export import date_binding;
+export import fixed_point;
 
 
 export namespace persistent_passwords

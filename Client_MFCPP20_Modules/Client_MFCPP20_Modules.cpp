@@ -17,7 +17,7 @@
 #define new DEBUG_NEW
 #endif
 
-import fixed_point;
+// import fixed_point;
 
 #include <sqlite_orm/sqlite_orm.h>
 
