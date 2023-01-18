@@ -136,6 +136,9 @@
     <ClInclude Include="..\TitleTip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\DLLs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GridCtrlDll.rc">

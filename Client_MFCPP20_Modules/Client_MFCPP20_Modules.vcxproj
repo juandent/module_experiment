@@ -198,6 +198,7 @@
     <ClInclude Include="Client_MFCPP20_Modules.h" />
     <ClInclude Include="Client_MFCPP20_ModulesDoc.h" />
     <ClInclude Include="Client_MFCPP20_ModulesView.h" />
+    <ClInclude Include="ControlsTest.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="Client_MFCPP20_Modules.cpp" />
     <ClCompile Include="Client_MFCPP20_ModulesDoc.cpp" />
     <ClCompile Include="Client_MFCPP20_ModulesView.cpp" />
+    <ClCompile Include="ControlsTest.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
@@ -261,6 +263,9 @@
     <None Include="res\ClientMFCPP20Modules.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GridCtrl\GridCtrl.vcxproj">
+      <Project>{1bd766c5-cb5c-4024-97db-8b1897bd75b8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MFCPP20MODULES\MFCPP20MODULES.vcxproj">
       <Project>{8e1ea0d3-c0e7-41fe-a640-e2329c32ffa8}</Project>
     </ProjectReference>

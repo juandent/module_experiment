@@ -21,6 +21,12 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MFCFramework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IDisplayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -57,6 +63,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="persistent_passwords.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="control_contents.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="grids_contents.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="error.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="orm_util.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

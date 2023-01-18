@@ -87,7 +87,7 @@ export namespace persistent_passwords
 		using namespace sqlite_orm;
 		using namespace std::chrono;
 		using namespace std;
-		static constexpr const char* db_name{ "C:\\Users\\juan_\\OneDrive\\Tokens\\Client.sqlite" };
+		static constexpr const char* db_name{ "Experiment.sqlite" };
 
 		static int flag = 0;
 

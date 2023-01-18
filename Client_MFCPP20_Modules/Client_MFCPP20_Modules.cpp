@@ -13,6 +13,8 @@
 #include "Client_MFCPP20_ModulesDoc.h"
 #include "Client_MFCPP20_ModulesView.h"
 
+#include "ControlsTest.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -23,6 +25,7 @@
 
 
 import persistent_passwords;
+import control_contents;
 
 
 void use()
@@ -30,11 +33,23 @@ void use()
 	using namespace sqlite_orm;
 	using namespace persistent_passwords;
 
+	using database_t = decltype(database());
+
 	database().sync_schema();
 	Location loc{ -1, "cpp_reference", "cpp_reference.com", "daniel@cpp_reference.com" };
 	database().insert(loc);
 	
 	Money mny;
+
+	// using namespace control_contents;
+	auto post = control_contents::Posting::get();
+	post.WindowProc(10, 2000, 4000);
+	CListBox box;
+	auto& db = database();
+	control_contents::BoxContents<database_t, Password, &Password::id>(db, box, [](const Password& pw)
+	{
+			return util::to_cstring(pw.simple_dump());
+	});
 }
 
 
@@ -140,7 +155,8 @@ BOOL CClientMFCPP20ModulesApp::InitInstance()
 	pDocTemplate = new CMultiDocTemplate(IDR_ClientMFCPP20ModulesTYPE,
 		RUNTIME_CLASS(CClientMFCPP20ModulesDoc),
 		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
-		RUNTIME_CLASS(CClientMFCPP20ModulesView));
+		RUNTIME_CLASS(ControlsTest));
+		// RUNTIME_CLASS(CClientMFCPP20ModulesView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);

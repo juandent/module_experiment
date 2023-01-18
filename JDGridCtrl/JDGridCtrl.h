@@ -1,6 +1,9 @@
 #pragma once
 
+#include "DLLs.h"
+
 #include "GridCtrl.h"
+#include "afxcmn.h"
 
 // CJDGridCtrl
 

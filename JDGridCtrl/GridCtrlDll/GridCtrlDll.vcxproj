@@ -349,6 +349,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\CellRange.h" />
+    <ClInclude Include="..\DLLs.h" />
     <ClInclude Include="..\GridCell.h" />
     <ClInclude Include="..\GridCellBase.h" />
     <ClInclude Include="..\GridCellCheck.h" />
