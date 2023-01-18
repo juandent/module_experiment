@@ -27,8 +27,7 @@ module;
 
 
 #include <sqlite_orm/sqlite_orm.h>
-#include  "DLLs.h"
-#include  "..\JDGridCtrl/JDGridCtrl.h"  
+#include  "..\GridCtrl/JDGridCtrl.h"  
 #include <optional>
 #include "IDisplayer.h"
 

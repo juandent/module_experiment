@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "JDMFCLibrary", "JDMFCLibrary\JDMFCLibrary.vcxproj", "{D7A93589-B456-43EF-9C10-E68BF433C68F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GridCtrlDll", "JDGridCtrl\GridCtrlDll\GridCtrlDll.vcxproj", "{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TesterForMFCUtilitiesDLL", "TesterForMFCUtilitiesDLL\TesterForMFCUtilitiesDLL.vcxproj", "{6A917F18-D6CA-4573-A61B-6FFF3CC197B0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestLeaksMFC", "TestLeaksMFC\TestLeaksMFC.vcxproj", "{302763DB-CEF6-4A4D-BBA1-B1632BB06FFC}"
@@ -77,18 +75,6 @@ Global
 		{D7A93589-B456-43EF-9C10-E68BF433C68F}.Release|x64.Build.0 = Release|x64
 		{D7A93589-B456-43EF-9C10-E68BF433C68F}.Release|x86.ActiveCfg = Release|Win32
 		{D7A93589-B456-43EF-9C10-E68BF433C68F}.Release|x86.Build.0 = Release|Win32
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Debug|x64.ActiveCfg = Debug|x64
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Debug|x64.Build.0 = Debug|x64
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Debug|x86.ActiveCfg = Debug|Win32
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Debug|x86.Build.0 = Debug|Win32
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release Unicode|x64.Build.0 = Release Unicode|x64
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release Unicode|x86.ActiveCfg = Release Unicode|Win32
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release Unicode|x86.Build.0 = Release Unicode|Win32
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release|x64.ActiveCfg = Release|x64
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release|x64.Build.0 = Release|x64
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release|x86.ActiveCfg = Release|Win32
-		{8C3A1B23-55F5-4B5F-985F-073F2E1C1745}.Release|x86.Build.0 = Release|Win32
 		{6A917F18-D6CA-4573-A61B-6FFF3CC197B0}.Debug|x64.ActiveCfg = Debug|x64
 		{6A917F18-D6CA-4573-A61B-6FFF3CC197B0}.Debug|x64.Build.0 = Debug|x64
 		{6A917F18-D6CA-4573-A61B-6FFF3CC197B0}.Debug|x86.ActiveCfg = Debug|Win32
