@@ -5,6 +5,9 @@
 #include "Client_MFCPP20_Modules.h"
 #include "ControlsTest.h"
 
+#include <sqlite_orm\sqlite_orm.h>
+
+#include "Persistent_passwords.h"
 
 // ControlsTest
 
@@ -24,6 +27,7 @@ void ControlsTest::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_C_GRID, m_grid);
+	DDX_Control(pDX, IDC_E_ID, m_id);
 }
 
 BEGIN_MESSAGE_MAP(ControlsTest, CFormView)
@@ -48,3 +52,19 @@ void ControlsTest::Dump(CDumpContext& dc) const
 
 
 // ControlsTest message handlers
+
+void ControlsTest::OnInitialUpdate()
+{
+	CFormView::OnInitialUpdate();
+
+
+	// CEdit edt;
+	// auto opt = getCurrent<
+	// export template<typename Database, typename Table>
+	// 	std::optional<Table> getCurrent(CEdit & editCtrl, Database & db)
+
+	// TODO: Add your specialized code here and/or call the base class
+	m_id << 1;
+	auto id = getCurrent<Password>(m_id, db);
+	m_grid.Initialize(true);
+}

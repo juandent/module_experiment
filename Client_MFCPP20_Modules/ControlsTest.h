@@ -1,7 +1,7 @@
 #pragma once
-#include "../GridCtrl/JDGridCtrl.h"
 
-
+#include "Persistent_passwords.h"
+#include "LocationGrid.h"
 
 // ControlsTest form view
 
@@ -29,7 +29,11 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 private:
-	CJDGridCtrl m_grid;
+	LocationGrid m_grid;
+public:
+	virtual void OnInitialUpdate();
+private:
+	CEdit m_id;
 };
 
 

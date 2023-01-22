@@ -82,12 +82,16 @@ export namespace persistent_passwords
 	using namespace std::chrono;
 	using namespace std;
 
+	using als_l = alias_l<Location>;
+	using als_p = alias_p<Password>;
+
+
 	inline auto& database()
 	{
 		using namespace sqlite_orm;
 		using namespace std::chrono;
 		using namespace std;
-		static constexpr const char* db_name{ "Experiment.sqlite" };
+		static constexpr const char* db_name{ "Tokens.sqlite" };
 
 		static int flag = 0;
 

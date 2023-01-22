@@ -28,7 +28,7 @@ namespace orm_util {
 
 
 
-	export template<typename Database, typename Table>
+	export template<typename Table, typename Database>
 	std::optional<Table> getCurrent(CEdit& editCtrl, Database& db )
 	{
 		using namespace sqlite_orm;

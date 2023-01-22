@@ -10,7 +10,7 @@ module;
 
 export module csv_file;
 
-import fixed_point;
+export import fixed_point;
 
 
 namespace csv

@@ -9,5 +9,6 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include <sqlite_orm/sqlite_orm.h>
 
 #endif //PCH_H

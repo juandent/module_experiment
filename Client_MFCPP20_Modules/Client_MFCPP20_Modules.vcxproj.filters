@@ -63,6 +63,12 @@
     <ClInclude Include="ControlsTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Persistent_passwords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LocationGrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client_MFCPP20_Modules.cpp">
