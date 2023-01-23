@@ -268,8 +268,8 @@
     <ProjectReference Include="..\GridCtrl\GridCtrl.vcxproj">
       <Project>{1bd766c5-cb5c-4024-97db-8b1897bd75b8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\MFCPP20MODULES\MFCPP20MODULES.vcxproj">
-      <Project>{8e1ea0d3-c0e7-41fe-a640-e2329c32ffa8}</Project>
+    <ProjectReference Include="..\MFCCPP20MODULES\MFCCPP20MODULES.vcxproj">
+      <Project>{be7789c4-7490-4dcd-a83b-477a0e18b658}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

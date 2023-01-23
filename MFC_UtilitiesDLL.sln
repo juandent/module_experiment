@@ -53,6 +53,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client_MFCPP20_Modules", "C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GridCtrl", "GridCtrl\GridCtrl.vcxproj", "{1BD766C5-CB5C-4024-97DB-8B1897BD75B8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MFCCPP20MODULES", "MFCCPP20MODULES\MFCCPP20MODULES.vcxproj", "{BE7789C4-7490-4DCD-A83B-477A0E18B658}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -363,6 +365,18 @@ Global
 		{1BD766C5-CB5C-4024-97DB-8B1897BD75B8}.Release|x64.Build.0 = Release|x64
 		{1BD766C5-CB5C-4024-97DB-8B1897BD75B8}.Release|x86.ActiveCfg = Release|Win32
 		{1BD766C5-CB5C-4024-97DB-8B1897BD75B8}.Release|x86.Build.0 = Release|Win32
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Debug|x64.ActiveCfg = Debug|x64
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Debug|x64.Build.0 = Debug|x64
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Debug|x86.ActiveCfg = Debug|Win32
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Debug|x86.Build.0 = Debug|Win32
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release Unicode|x64.ActiveCfg = Release|x64
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release Unicode|x64.Build.0 = Release|x64
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release Unicode|x86.ActiveCfg = Release|Win32
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release Unicode|x86.Build.0 = Release|Win32
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release|x64.ActiveCfg = Release|x64
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release|x64.Build.0 = Release|x64
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release|x86.ActiveCfg = Release|Win32
+		{BE7789C4-7490-4DCD-A83B-477A0E18B658}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

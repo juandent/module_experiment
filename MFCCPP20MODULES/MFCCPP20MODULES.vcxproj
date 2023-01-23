@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8e1ea0d3-c0e7-41fe-a640-e2329c32ffa8}</ProjectGuid>
+    <ProjectGuid>{BE7789C4-7490-4DCD-A83B-477A0E18B658}</ProjectGuid>
     <RootNamespace>MFCPP20MODULES</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>MFCCPP20MODULES</ProjectName>
