@@ -3,6 +3,7 @@
 #include "Persistent_passwords.h"
 #include "LocationGrid.h"
 
+
 // ControlsTest form view
 
 class ControlsTest : public CFormView
@@ -45,6 +46,19 @@ public:
 	afx_msg void OnGridStartSelChange(NMHDR* pNotifyStruct, LRESULT*);
 private:
 	CJDGridCtrl m_grid_simple;
+	CButton m_check1;
+public:
+	afx_msg void OnClickedCheck1();
+private:
+	CButton m_one;
+	CButton m_two;
+	RadioButtonGroup m_group_one_two;
+public:
+	afx_msg void OnClickedRadio();
+private:
+	CDateTimeCtrl m_date_time;
+public:
+	afx_msg void OnDatetimechangeDatetimepicker1(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 

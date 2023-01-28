@@ -2,6 +2,7 @@
 //
 
 #include "pch.h"
+#include <chrono>
 #include "Client_MFCPP20_Modules.h"
 #include "ControlsTest.h"
 
@@ -9,7 +10,6 @@
 
 #include "Persistent_passwords.h"
 
-// ControlsTest
 
 IMPLEMENT_DYNCREATE(ControlsTest, CFormView)
 
@@ -18,7 +18,8 @@ ControlsTest::ControlsTest()
 	m_passwordLB{ db, m_password_listbox, [](const Password& password)
 		{
 			return util::to_cstring( password.simple_dump());
-		} }
+		} },
+	m_group_one_two{ {&m_one, &m_two}, {1,2} }
 {
 
 }
@@ -34,11 +35,20 @@ void ControlsTest::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_E_ID, m_id);
 	DDX_Control(pDX, IDC_L_LOCATIONS, m_password_listbox);
 	DDX_Control(pDX, IDC_C_GRID_PASSWORDS, m_grid_passwords);
+	DDX_Control(pDX, IDC_G_GRID, m_grid_simple);
+	DDX_Control(pDX, IDC_CHECK1, m_check1);
+	DDX_Control(pDX, IDC_RADIO1, m_one);
+	DDX_Control(pDX, IDC_RADIO2, m_two);
+	DDX_Control(pDX, IDC_DATETIMEPICKER1, m_date_time);
 }
 
 BEGIN_MESSAGE_MAP(ControlsTest, CFormView)
 	ON_LBN_SELCHANGE(IDC_L_LOCATIONS, &ControlsTest::OnSelchangeLLocations)
 	ON_NOTIFY(GVN_SELCHANGED, IDC_C_GRID2, OnGridStartSelChange)
+	ON_BN_CLICKED(IDC_CHECK1, &ControlsTest::OnClickedCheck1)
+	ON_BN_CLICKED(IDC_RADIO1, &ControlsTest::OnClickedRadio)
+	ON_BN_CLICKED(IDC_RADIO2, &ControlsTest::OnClickedRadio)
+	ON_NOTIFY(DTN_DATETIMECHANGE, IDC_DATETIMEPICKER1, &ControlsTest::OnDatetimechangeDatetimepicker1)
 END_MESSAGE_MAP()
 
 
@@ -108,4 +118,39 @@ void ControlsTest::OnGridStartSelChange(NMHDR* pNotifyStruct, LRESULT*)
 
 	auto location_id = m_grid.GetIdFromRow(row);
 
+}
+
+
+void ControlsTest::OnClickedCheck1()
+{
+	// TODO: Add your control notification handler code here
+	// INSTEAD OF
+	auto val = m_check1.GetCheck();
+	// USE THIS
+	bool is_checked;
+	m_check1 >> is_checked;
+
+}
+
+
+void ControlsTest::OnClickedRadio()
+{
+	// TODO: Add your control notification handler code here
+	int val;
+	m_group_one_two >> val;
+
+	m_check1 << (val != 1);
+}
+
+
+void ControlsTest::OnDatetimechangeDatetimepicker1(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMDATETIMECHANGE pDTChange = reinterpret_cast<LPNMDATETIMECHANGE>(pNMHDR);
+	// TODO: Add your control notification handler code here
+	//pDTChange->st.wYear;
+	std::chrono::sys_days date;
+	m_date_time >> date;
+	std::chrono::year_month_day ymd = date;
+
+	*pResult = 0;
 }
