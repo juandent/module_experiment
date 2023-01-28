@@ -11,5 +11,6 @@ import grids_contents;
 using namespace orm_util;
 using namespace persistent_passwords;
 using namespace sqlite_orm;
+using namespace control_contents;
 
 inline auto& db = database();

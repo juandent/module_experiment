@@ -22,45 +22,6 @@
 #include "Persistent_passwords.h"
 
 
-#if 0
-void use()
-{
-	using namespace sqlite_orm;
-
-
-	using database_t = decltype(database());
-
-	database().sync_schema();
-	Location loc{ -1, "cpp_reference", "cpp_reference.com", "daniel@cpp_reference.com" };
-	database().insert(loc);
-
-	Password pwd{ -1, "jxql78", today(), 1 };
-	database().insert(pwd);
-	
-	Money mny;
-
-#if 0
-	// using namespace control_contents;
-	auto post = control_contents::Posting::get();
-	post.WindowProc(10, 2000, 4000);
-	CListBox box;
-
-	control_contents::BoxContents<database_t, Password, &Password::id>(db, box, [](const Password& pw)
-	{
-			return util::to_cstring(pw.simple_dump());
-	});
-#endif
-
-	auto lines = db.select(columns(&Location::id, &Password::id), cross_join<Password>());
-
-	auto linesAsterisks = db.select(asterisk<Location>(), cross_join<Password>());
-
-	//auto linesAsterisksTwo = db.select(columns(asterisk<Location>(), &Password::id), cross_join<Password>());
-
-	auto linesAsterisksTwo = db.select(columns(&Location::id, &Password::id), cross_join<Password>());
-}
-#endif
-
 
 // CClientMFCPP20ModulesApp
 

@@ -220,6 +220,7 @@
     <ClCompile Include="Client_MFCPP20_ModulesView.cpp" />
     <ClCompile Include="ControlsTest.cpp" />
     <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="LocationGrid.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">

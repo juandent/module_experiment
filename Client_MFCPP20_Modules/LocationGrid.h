@@ -5,6 +5,8 @@
 
 class LocationGrid : public CJDGridCtrl
 {
+	DECLARE_DYNCREATE(LocationGrid)
+
 	const GridId<> m_grid_id;
 	std::unique_ptr<IDisplayer> m_displayer;
 public:
@@ -29,7 +31,7 @@ public:
 		m_displayer->display();
 	}
 
-	int GetId(int row) const { return m_grid_id.GetId(row); }
+	int GetIdFromRow(int row) const { return m_grid_id.GetId(row); }
 	int GetRowForId(int id) const { return m_grid_id.GetRowForId(id); }
 };
 

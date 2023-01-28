@@ -7,7 +7,7 @@
 
 class  CJDGridCtrl : public CGridCtrl
 {
-	DECLARE_DYNAMIC(CJDGridCtrl)
+	DECLARE_DYNCREATE(CJDGridCtrl)
 
 public:
 	CJDGridCtrl(int nRows = 0, int nCols = 0, int nFixedRows = 0, int nFixedCols = 0);

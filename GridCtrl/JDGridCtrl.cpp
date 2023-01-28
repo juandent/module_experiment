@@ -8,7 +8,8 @@
 
 // CJDGridCtrl
 
-IMPLEMENT_DYNAMIC(CJDGridCtrl, CGridCtrl)
+IMPLEMENT_DYNCREATE(CJDGridCtrl, CGridCtrl)
+
 
 CJDGridCtrl::CJDGridCtrl(int nRows, int nCols, int nFixedRows, int nFixedCols)
 	: CGridCtrl(nRows, nCols, nFixedRows, nFixedCols)

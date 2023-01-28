@@ -34,6 +34,17 @@ public:
 	virtual void OnInitialUpdate();
 private:
 	CEdit m_id;
+	
+	CJDGridCtrl m_grid_passwords;
+	std::unique_ptr< GridDisplayer<Password>> m_password_displayer;
+
+	CListBox m_password_listbox;
+	BoxContents<decltype(db), Password, &Password::id> m_passwordLB;
+public:
+	afx_msg void OnSelchangeLLocations();
+	afx_msg void OnGridStartSelChange(NMHDR* pNotifyStruct, LRESULT*);
+private:
+	CJDGridCtrl m_grid_simple;
 };
 
 
