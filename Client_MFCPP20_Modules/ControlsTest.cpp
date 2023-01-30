@@ -33,7 +33,7 @@ void ControlsTest::DoDataExchange(CDataExchange* pDX)
 	CFormView::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_C_GRID2, m_grid);
 	DDX_Control(pDX, IDC_E_ID, m_id);
-	DDX_Control(pDX, IDC_L_LOCATIONS, m_password_listbox);
+	DDX_Control(pDX, IDC_L_PASSWORDS, m_password_listbox);
 	DDX_Control(pDX, IDC_C_GRID_PASSWORDS, m_grid_passwords);
 	DDX_Control(pDX, IDC_G_GRID, m_grid_simple);
 	DDX_Control(pDX, IDC_CHECK1, m_check1);
@@ -43,7 +43,7 @@ void ControlsTest::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(ControlsTest, CFormView)
-	ON_LBN_SELCHANGE(IDC_L_LOCATIONS, &ControlsTest::OnSelchangeLLocations)
+	ON_LBN_SELCHANGE(IDC_L_PASSWORDS, &ControlsTest::OnSelchangePasswords)
 	ON_NOTIFY(GVN_SELCHANGED, IDC_C_GRID2, OnGridStartSelChange)
 	ON_BN_CLICKED(IDC_CHECK1, &ControlsTest::OnClickedCheck1)
 	ON_BN_CLICKED(IDC_RADIO1, &ControlsTest::OnClickedRadio)
@@ -98,10 +98,12 @@ void ControlsTest::OnInitialUpdate()
 	auto passwords = db.get_all<Password>();
 	m_passwordLB.loadLB(passwords);
 
+	m_passwordLB.select_by_pk(passwords[0].id);
+
 }
 
 
-void ControlsTest::OnSelchangeLLocations()
+void ControlsTest::OnSelchangePasswords()
 {
 	// TODO: Add your control notification handler code here
 	auto password = m_passwordLB.current();
@@ -153,4 +155,12 @@ void ControlsTest::OnDatetimechangeDatetimepicker1(NMHDR* pNMHDR, LRESULT* pResu
 	std::chrono::year_month_day ymd = date;
 
 	*pResult = 0;
+}
+
+
+LRESULT ControlsTest::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if( Posting::get().WindowProc(message, wParam, lParam) == Posting::WindowProcNotHandled)
+		return CFormView::WindowProc(message, wParam, lParam);
+	return 0;
 }

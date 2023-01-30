@@ -17,6 +17,7 @@ using namespace sqlite_orm;
 namespace control_contents
 {
 
+
 	export struct Posting
 	{
 	private:
@@ -54,6 +55,7 @@ namespace control_contents
 			box.GetParent()->PostMessageW(WM_COMMAND, (WPARAM)MAKELONG(box.GetDlgCtrlID(), LBN_SELCHANGE), (LPARAM)(HWND)box.m_hWnd);
 		}
 
+
 		LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			if (message == WM_COMMAND)
@@ -71,7 +73,16 @@ namespace control_contents
 			}
 			return WindowProcNotHandled;
 		}
-
+		//
+		// How to use:
+		/*
+		LRESULT AView::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+		{
+			if (Posting::get().WindowProc(message, wParam, lParam) == Posting::WindowProcNotHandled)
+				return CFormView::WindowProc(message, wParam, lParam);
+			return 0;
+		}
+		*/
 	};
 
 	export template<typename Table>
@@ -122,6 +133,7 @@ namespace control_contents
 			}
 			return record;
 		}
+	private:
 		int GetCurSel() const
 		{
 			return m_box.GetCurSel();
@@ -130,7 +142,7 @@ namespace control_contents
 		{
 			m_box.SetCurSel(index);
 		}
-
+	public:
 		std::optional<Table> select_by_pk(int pk)
 		{
 			std::optional<Table> record;

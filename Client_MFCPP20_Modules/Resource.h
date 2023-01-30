@@ -88,6 +88,7 @@
 #define IDC_C_GRID_PASSWORDS            1000
 #define IDC_E_ID                        1001
 #define IDC_L_LOCATIONS                 1002
+#define IDC_L_PASSWORDS                 1002
 #define IDC_C_GRID2                     1003
 #define IDC_G_GRID                      1004
 #define IDC_CHECK1                      1005

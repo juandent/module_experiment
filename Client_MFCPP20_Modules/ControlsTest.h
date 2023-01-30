@@ -42,7 +42,7 @@ private:
 	CListBox m_password_listbox;
 	BoxContents<decltype(db), Password, &Password::id> m_passwordLB;
 public:
-	afx_msg void OnSelchangeLLocations();
+	afx_msg void OnSelchangePasswords();
 	afx_msg void OnGridStartSelChange(NMHDR* pNotifyStruct, LRESULT*);
 private:
 	CJDGridCtrl m_grid_simple;
@@ -59,6 +59,7 @@ private:
 	CDateTimeCtrl m_date_time;
 public:
 	afx_msg void OnDatetimechangeDatetimepicker1(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };
 
 
