@@ -166,6 +166,7 @@
     <ClCompile Include="error.ixx" />
     <ClCompile Include="fixed_point.ixx" />
     <ClCompile Include="grids_contents.ixx" />
+    <ClCompile Include="monetary.ixx" />
     <ClCompile Include="orm_util.ixx" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -175,7 +176,13 @@
     </ClCompile>
     <ClCompile Include="persistent_passwords.ixx" />
     <ClCompile Include="storage.ixx" />
-    <ClCompile Include="util.cpp" />
+    <ClCompile Include="test_use_pp.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="test_util.ixx" />
+    <ClCompile Include="util.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="util.ixx" />
   </ItemGroup>
   <ItemGroup>

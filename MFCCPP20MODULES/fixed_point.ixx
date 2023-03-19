@@ -523,7 +523,7 @@ TEMPORARY some options to consider for fixed point
 #endif
 
 	//int arithmetic_types_module_test(int test_no, std::ostream& os);
-	using Money = fixed_decimal<2, long long>;
+	//using Money = fixed_decimal<2, long long>;
 
 }
 

@@ -76,6 +76,8 @@ void ControlsTest::OnInitialUpdate()
 	CFormView::OnInitialUpdate();
 
 
+	auto str = util::to_cstring(true);
+
 	// CEdit edt;
 	// auto opt = getCurrent<
 	// export template<typename Database, typename Table>
@@ -91,13 +93,11 @@ void ControlsTest::OnInitialUpdate()
 	std::vector<std::string> headers{ "ID", "BEG DATE", "FK LOCATION", "PASSWORD"};
 
 	m_password_displayer.reset(new GridDisplayer<Password>(m_grid_passwords, std::move(lines), std::move(headers)));
-
 	m_password_displayer->display(&Password::id, &Password::begining_date, &Password::fkey_location, &Password::password);
 
 	// initialize listbox
 	auto passwords = db.get_all<Password>();
 	m_passwordLB.loadLB(passwords);
-
 	m_passwordLB.select_by_pk(passwords[0].id);
 
 }

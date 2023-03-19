@@ -3,6 +3,10 @@
 
 #include "Persistent_passwords.h"
 
+
+//inline auto& db = database();
+
+
 class LocationGrid : public CJDGridCtrl
 {
 	DECLARE_DYNCREATE(LocationGrid)
@@ -15,7 +19,7 @@ public:
 	template<typename T>
 	void Initialize(T t)
 	{
-		auto lines = db.select(columns(
+		auto lines = database().select(columns(
 			alias_column<als_l>(&Location::id),
 			alias_column<als_l>(&Location::name),
 			alias_column<als_l>(&Location::url),

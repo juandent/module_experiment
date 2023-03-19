@@ -12,6 +12,9 @@ export module csv_file;
 
 export import fixed_point;
 
+import util;
+
+//using namespace util;
 
 namespace csv
 {
@@ -88,7 +91,7 @@ namespace csv
 
 
 
-		//	typedef std::basic_ostream<char>&  (__cdecl *Manip)(std::basic_ostream<char>&);
+
 		using Manipulator = std::basic_ostream<char>& (__cdecl*)(std::basic_ostream<char>&);
 
 		CSV_File& operator<<(Manipulator func);

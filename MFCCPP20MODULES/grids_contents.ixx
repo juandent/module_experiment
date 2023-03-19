@@ -345,12 +345,12 @@ export {
 
 				if (ColonesCols::template found<Col + 1>())
 				{
-					util::Colones c(value);
+					Colones c(value);
 					cs = format(c);
 				}
 				else if (DollarsCols::template found<Col + 1>())
 				{
-					util::Dolares d(value);
+					Dolares d(value);
 					cs = format(d);
 				}
 				else

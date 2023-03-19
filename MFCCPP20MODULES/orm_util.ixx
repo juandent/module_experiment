@@ -86,7 +86,7 @@ namespace orm_util {
 
 	export inline void SetColones(CEdit& edit_box, double amount)
 	{
-		util::Colones col{ amount };
+		Colones col{ amount };
 		auto col_str = util::to_string(col);
 		auto str = util::to_cstring(col_str);
 		edit_box.SetWindowTextW(str);
@@ -96,25 +96,25 @@ namespace orm_util {
 	{
 		// SetAmount(edit_box, amount);
 
-		util::Dolares col{ amount };
+		Dolares col{ amount };
 		CString str = util::to_cstring(col);
 		edit_box.SetWindowTextW(str);
 	}
-	export inline util::Dolares GetDolares(CEdit& edit_box)
+	export inline Dolares GetDolares(CEdit& edit_box)
 	{
 		CString str;
 		edit_box.GetWindowTextW(str);
 
-		util::Dolares dollars{ util::Str::from_dollars_cstring(str) };
+		Dolares dollars{ util::Str::from_dollars_cstring(str) };
 		return dollars;
 	}
 
-	export inline util::Dolares GetColones(CEdit& edit_box)
+	export inline Dolares GetColones(CEdit& edit_box)
 	{
 		CString str;
 		edit_box.GetWindowTextW(str);
 
-		util::Colones local { util::Str::from_local_cstring(str) };
+		Colones local { util::Str::from_local_cstring(str) };
 		return local;
 	}
 

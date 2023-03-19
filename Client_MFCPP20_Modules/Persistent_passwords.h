@@ -13,4 +13,8 @@ using namespace persistent_passwords;
 using namespace sqlite_orm;
 using namespace control_contents;
 
-inline auto& db = database();
+// inline auto& db = persistent_passwords::database();
+
+
+/////inline persistent_passwords::db_type& data = db;
+

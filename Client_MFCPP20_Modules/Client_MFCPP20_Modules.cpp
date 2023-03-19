@@ -66,9 +66,27 @@ CClientMFCPP20ModulesApp theApp;
 
 
 // CClientMFCPP20ModulesApp initialization
+void useUtil();
+
+#include <iomanip>
+#include <sstream>
+
+std::ostringstream& setw(std::ostringstream& os, int size)
+{
+	os << std::setw(size);
+	return os;
+}
 
 BOOL CClientMFCPP20ModulesApp::InitInstance()
 {
+	std::ostringstream os;
+	setw(os, 16);
+	useUtil();
+	std::istringstream in{ "$1,234.56 2.22 USD 3.33" };
+	long double v1, v2;
+	in.imbue(std::locale("en-US"));
+	in >> std::get_money(v1);
+
 	//use();
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable

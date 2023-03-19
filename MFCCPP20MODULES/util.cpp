@@ -20,6 +20,7 @@ using namespace std;
 
 namespace util
 {
+#if 0
 	// to deal with unneeded positive sign!!
 	class costaRicaNumPunct : public moneypunct_byname<char>
 	{
@@ -265,19 +266,6 @@ namespace util
 		return to_wstring(temp);
 	}
 
-	// std::string to_string(Colones money, int width)
-	// {
-	// 	auto temp = moneyHelper->putColones(money, width);
-	// 	return temp;
-	// }
-	//
-	// std::wstring to_wstring(Colones money, int width)
-	// {
-	// 	// auto temp = to_string(money, width);
-	// 	return Util::to_wstring(money, width);
-	// 	// return to_wstring(temp);
-	// }
-
 
 	Colones::operator std::string()
 	{
@@ -311,7 +299,7 @@ namespace util
 		auto temp = moneyHelper->getDollars(str);
 		return temp;
 	}
-
+#endif
 };
 
 

@@ -85,8 +85,7 @@ export namespace persistent_passwords
 	using als_l = alias_l<Location>;
 	using als_p = alias_p<Password>;
 
-
-	inline auto& database()
+	auto& database()
 	{
 		using namespace sqlite_orm;
 		using namespace std::chrono;
@@ -118,4 +117,16 @@ export namespace persistent_passwords
 
 		return storage;
 	}
+	using db_type = decltype(database());
+
+	inline db_type& db = database();
+
 }
+
+#if 1   // enable produces internal compiler error when used
+export inline auto& test()
+{
+	static int ret = 0;
+	return ret;
+}
+#endif

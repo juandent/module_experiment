@@ -26,6 +26,7 @@ module;
 #include <format>
 
 
+
 export module util;
 import fixed_point;
 import date_as_string;
@@ -52,7 +53,7 @@ namespace fs = std::filesystem;
 
 
 // Sample diagnostics class:
-namespace diag
+export namespace diag
 {
 	template<typename T>
 	struct TypeName;	// un purpose not defined!
@@ -131,38 +132,42 @@ namespace diag
 #endif
 }
 
+export using Money = fixed_decimal<2, long long>;
+
+export class Colones : public Money
+{
+	unsigned m_width = 13;
+public:
+	using Money::Money;
+	inline Colones() : Money(0) {}
+	inline Colones(const Money& money)
+		: Money(money.rep() / (long double)money.scale_)
+	{}
+	inline void setWidth(unsigned w) { m_width = w; }
+	operator std::string();
+	operator std::wstring();
+};
+
+// MFC_UTILITIES_API
+export class Dolares : public Money
+{
+	unsigned m_width = 13;
+public:
+	using Money::Money;
+	inline Dolares() : Money(0) {}
+	inline Dolares(const Money& money)
+		: Money(money.rep() / (long double)money.scale_)
+	{}
+	inline void setWidth(unsigned w) { m_width = w; }
+	operator std::string();
+	operator std::wstring();
+};
+
+
 export namespace util
 {
-	//export using Money = fixed_decimal<2, long long>;
+	using namespace ::std;
 
-	export class Colones : public Money
-	{
-		unsigned m_width = 13;
-	public:
-		using Money::Money;
-		inline Colones() : Money(0) {}
-		inline Colones(const Money& money)
-			: Money(money.rep() / (long double)money.scale_)
-		{}
-		inline void setWidth(unsigned w) { m_width = w; }
-		operator std::string();
-		operator std::wstring();
-	};
-
-	// MFC_UTILITIES_API
-	export class Dolares : public Money
-	{
-		unsigned m_width = 13;
-	public:
-		using Money::Money;
-		inline Dolares() : Money(0) {}
-		inline Dolares(const Money& money)
-			: Money(money.rep() / (long double)money.scale_)
-		{}
-		inline void setWidth(unsigned w) { m_width = w; }
-		operator std::string();
-		operator std::wstring();
-	};
 
 	// using pointers
 	export template <typename T, typename U, typename X = std::remove_pointer<T>::type, typename Y = std::remove_pointer<U>::type,
@@ -225,7 +230,7 @@ export namespace util
 		return std::string(buf.data(), buf.size());
 	}
 
-	export inline CString to_cstring(std::string msg)
+	export CString to_cstring(std::string msg)
 	{
 		std::wstring message = to_wstring(msg);
 		CString msg_as_cstring{ message.c_str() };
@@ -310,7 +315,7 @@ export namespace util
 	}
 
 
-	export inline std::string to_string(std::chrono::sys_days dp)
+	export std::string to_string(std::chrono::sys_days dp)
 	{
 		std::chrono::year_month_day ymd{ dp };
 		std::ostringstream os;
@@ -318,7 +323,7 @@ export namespace util
 		return os.str();
 	}
 
-	export inline CString to_cstring(std::chrono::sys_days dp)
+	export CString to_cstring(std::chrono::sys_days dp)
 	{
 		auto str = to_string(dp);
 		return to_cstring(str);
@@ -698,13 +703,361 @@ export namespace util
 			return m_pointerToBuffer;
 		}
 	};
+
+	//
+	class costaRicaNumPunct : public moneypunct_byname<char>
+	{
+	public:
+		explicit costaRicaNumPunct(const std::string& name)
+			: std::moneypunct_byname<char>("en-US")      ///   "sp-CR")
+		{}
+	protected:
+		virtual std::string do_positive_sign() const override {
+			return "";
+		}
+		virtual std::string do_curr_symbol() const override {
+			return "¢";
+		}
+		virtual int do_frac_digits() const override
+		{
+			return 2;
+		}
+		virtual char_type do_thousands_sep() const override {
+			return ',';
+		}
+		virtual char_type do_decimal_point() const override {
+			return '.';
+		}
+	};
+
+
+	string Comparison::stripNonDigits(const CString& s)
+	{
+		os.str("");
+		int count = 0;
+		for (int i = 0; i < s.GetLength(); ++i)
+		{
+			auto c = s.GetAt(i);
+			if (c == '-' || c == '.' || std::isdigit(c, loc))
+			{
+				os << static_cast<char>(c);
+				count++;
+			}
+		}
+		if (count == 0)
+		{
+			return "0"s;
+		}
+		return os.str();
+	}
+
+	int __stdcall Comparison::Text(LPARAM lpar1, LPARAM lpar2, LPARAM lpar3)
+	{
+		auto cells = translate(lpar1, lpar2);
+		if (cells.first == nullptr)  return 0;
+		return _tcscmp(cells.first->GetText(), cells.second->GetText());
+	}
+
+	int __stdcall Comparison::Money(LPARAM lpar1, LPARAM lpar2, LPARAM lpar3)
+	{
+		auto cells = translate(lpar1, lpar2);
+		if (cells.first == nullptr)  return 0;
+
+		auto nValue1 = to_number(cells.first->GetText());
+		auto nValue2 = to_number(cells.second->GetText());
+
+		if (nValue1 < nValue2)
+			return -1;
+		else if (nValue1 == nValue2)
+			return 0;
+		else
+			return 1;
+	}
+
+	pair<CGridCellBase*, CGridCellBase*> Comparison::translate(LPARAM lpar1, LPARAM lpar2)
+	{
+		CGridCellBase* pCell1 = reinterpret_cast<CGridCellBase*>(lpar1);
+		CGridCellBase* pCell2 = reinterpret_cast<CGridCellBase*>(lpar2);
+		if (!pCell1 || !pCell2) return make_pair(nullptr, nullptr);
+		else return make_pair(pCell1, pCell2);
+	}
+
+
+	locale Comparison::loc;
+	ostringstream Comparison::os;
+
+#define PLAYING_WITH_LOCALES
+
+	struct MoneytaryHelper
+	{
+	private:
+		costaRicaNumPunct* m_posSignEliminator;
+		locale m_usLoc;
+		locale m_crLoc;
+		ostringstream m_usOs;
+		ostringstream m_crOs;
+		istringstream m_usIs;
+		istringstream m_crIs;
+
+		const money_put<char>& m_usMoney_put;
+		const money_put<char>& m_crMoney_put;
+
+		const num_put<char>& m_usNumber_put;
+		const num_put<char>& m_crNumber_put;
+
+		ostringstream& setw(ostringstream& os, int size)
+		{
+#if 0
+			os << std::setw(size);
+			return os;
+#else
+			using type = decltype(std::setw(size));
+			type s = std::setw(size);
+			os << s;
+			return os;
+#endif
+		}
+
+	public:
+		MoneytaryHelper()
+			: m_posSignEliminator{ new costaRicaNumPunct{ "" } },
+#ifndef PLAYING_WITH_LOCALES
+			m_usLoc{ "en-US" }, m_crLoc{ locale{"sp-ES"}.combine<numpunct<char>>(locale{"sp-CR"}), //, m_posSignEliminator
+			},
+#else
+			m_usLoc{ "en-US" }, m_crLoc{ m_usLoc, m_posSignEliminator },
+#endif
+			m_usMoney_put{ use_facet<money_put<char>>(m_usLoc) }, m_crMoney_put{ use_facet<money_put<char>>(m_crLoc) },
+			m_usNumber_put{ use_facet<num_put<char>>(m_usLoc) }, m_crNumber_put{ use_facet<num_put<char>>(m_crLoc) }
+		{
+			m_usOs << showbase;
+			m_usOs.imbue(m_usLoc);
+
+			m_crOs << showbase;
+			m_crOs.imbue(m_crLoc);
+
+			m_usIs.imbue(m_usLoc);
+			m_crIs.imbue(m_crLoc);
+
+
+#ifdef PLAYING_WITH_LOCALES
+			//m_crLoc = m_crLoc.combine<numpunct<char>>(locale{"sp-ES"});
+			//m_crOs.imbue(m_crLoc);
+			//m_crIs.imbue(m_crLoc);
+#endif
+		}
+		string putNumberAsCR(Money money, int width)
+		{
+			m_crOs.str("");
+			m_crOs << right;
+			setw(m_crOs, width);
+			auto value = money.rep() / (long double)money.scale_;
+			m_crNumber_put.put(m_crOs, m_crIs, ' ', value);
+			auto temp = m_crOs.str();
+			return temp;
+		}
+		string putColones(Money money, int width)
+		{
+			m_crOs.str("");
+			m_crOs << right;
+			setw(m_crOs, width);
+			m_crMoney_put.put(m_crOs, false, m_crOs, ' ', 100 * money.getAsLongDouble()); //   money.rep()
+			auto temp = m_crOs.str();
+			return temp;
+		}
+		string putDollars(Money money, int width)
+		{
+			m_usOs.str("");
+			m_usOs << right;
+			setw(m_usOs, width);
+			m_usMoney_put.put(m_usOs, false, m_usOs, ' ', 100 * money.getAsLongDouble());	// money.rep());
+			auto temp = m_usOs.str();
+			return temp;
+		}
+		Money getColones(const std::string& asColones)
+		{
+#if 1
+			auto readVal = 0.0L;
+			m_crIs.str(asColones);
+
+			using Iter = std::istreambuf_iterator<char>;
+			using MoneyGet = std::money_get<char, Iter>;
+
+			std::ios_base::iostate err = std::ios_base::goodbit;
+
+			const MoneyGet& mg = std::use_facet<MoneyGet>(m_crIs.getloc());
+			mg.get(Iter(m_crIs.rdbuf()), Iter{}, false, m_crIs, err, readVal);
+
+			if (err != std::ios_base::goodbit)
+				m_crIs.setstate(err);
+
+//			m_crIs >> get_money(readVal);
+			return Money(readVal/100.0);
+#else
+			m_crIs.str(asColones);
+			auto readVal = 0.0L;
+			m_crIs >> get_money(readVal);
+			return Money(readVal);
+#endif
+		}
+
+		Money getDollars(const std::string& asDollars)
+		{
+#if 1
+			auto readVal = 0.0L;
+			m_usIs.str(asDollars);
+
+			using Iter = std::istreambuf_iterator<char>;
+			using MoneyGet = std::money_get<char, Iter>;
+
+			std::ios_base::iostate err = std::ios_base::goodbit;
+
+			const MoneyGet& mg = std::use_facet<MoneyGet>(m_usIs.getloc());
+			mg.get(Iter(m_usIs.rdbuf()), Iter{}, false, m_usIs, err, readVal);
+
+			if (err != std::ios_base::goodbit)
+				m_usIs.setstate(err);
+
+			return Money(readVal / 100.0);
+#else
+			m_usIs.str(asDollars);
+			auto readVal = 0.0L;
+			m_usIs >> get_money(readVal);
+			return Money(readVal);
+
+#endif
+		}
+	};
 }
 
-//module :private;
+	namespace
+	{
+		int s_NiftyCounterForSingletons = 0;
+		util::MoneytaryHelper* moneyHelper = nullptr;
+		util::SingletonsInitializer initializer{};
+	}
+
+export namespace util
+{
+	SingletonsInitializer::SingletonsInitializer()
+	{
+		if (s_NiftyCounterForSingletons++ == 0)
+		{
+			moneyHelper = new MoneytaryHelper{};
+		}
+	}
+
+	SingletonsInitializer::~SingletonsInitializer()
+	{
+		if (--s_NiftyCounterForSingletons == 0)
+		{
+			delete moneyHelper;
+		}
+	}
+
+	CString number_to_cstring(Money money, int width)
+	{
+		auto temp = moneyHelper->putNumberAsCR(money, width);
+		return to_cstring(temp);
+	}
+
+	CString local_to_cstring(Money money, int width)
+	{
+		auto temp = moneyHelper->putColones(money, width);
+		return to_cstring(temp);
+	}
+
+	CString dollars_to_cstring(Money money, int width)
+	{
+		auto temp = moneyHelper->putDollars(money, width);
+		return to_cstring(temp);
+	}
+
+	///
+
+	std::string to_string(Dolares money, int width)
+	{
+		auto temp = moneyHelper->putDollars(money, width);
+		return temp;
+	}
+
+	std::wstring to_wstring(Dolares money, int width)
+	{
+		auto temp = to_string(money, width);
+		return to_wstring(temp);
+	}
+
+	std::string to_string(Colones money, int width)
+	{
+		auto temp = moneyHelper->putColones(money, width);
+		return temp;
+	}
+
+	std::wstring to_wstring(Colones money, int width)
+	{
+		auto temp = to_string(money, width);
+		return to_wstring(temp);
+	}
 
 
 
+	Money Str::from_local_cstring(const CString& s)
+	{
+		auto str = from_cstring(s);
+		auto temp = moneyHelper->getColones(str);
+		return temp;
+	}
+
+	Money Str::from_dollars_cstring(const CString& s)
+	{
+		auto str = from_cstring(s);
+		auto temp = moneyHelper->getDollars(str);
+		return temp;
+	}
+}
+
+//using namespace util;
+
+Colones::operator ::std::string()
+{
+	using util::to_string;
+	using std::to_string;
+
+	return to_string(*this, m_width);
+}
+
+Colones::operator ::std::wstring()
+{
+	using util::to_wstring;
+	using std::to_wstring;
+
+	return to_wstring(*this, m_width);
+}
+Dolares::operator ::std::string()
+{
+	using util::to_string;
+	using std::to_string;
+
+	return to_string(*this, m_width);
+}
+
+Dolares::operator ::std::wstring()
+{
+	using util::to_wstring;
+	using std::to_wstring;
+
+	return to_wstring(*this, m_width);
+}
 
 
+
+void useUtil2()
+{
+	util::MoneytaryHelper helper;
+	Colones money{ 1000.02 };
+	auto ex = util::to_string(money);
+	auto str = helper.putColones(money, 16);
+	auto colones = helper.getColones("4,500.55");
+}
 
 

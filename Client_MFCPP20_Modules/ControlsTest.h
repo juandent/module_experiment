@@ -40,7 +40,7 @@ private:
 	std::unique_ptr< GridDisplayer<Password>> m_password_displayer;
 
 	CListBox m_password_listbox;
-	BoxContents<decltype(db), Password, &Password::id> m_passwordLB;
+	BoxContents<decltype(database()), Password, &Password::id> m_passwordLB;
 public:
 	afx_msg void OnSelchangePasswords();
 	afx_msg void OnGridStartSelChange(NMHDR* pNotifyStruct, LRESULT*);
