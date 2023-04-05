@@ -20,10 +20,8 @@ export module date_time_binding;
 /// local_seconds binding as TEXT
 /// ///////////////////////////
 
-export {
 
-
-    std::chrono::local_seconds timestamp() {
+export   std::chrono::local_seconds date_time() {
         namespace chr = std::chrono;
 
         auto now_point = chr::system_clock::now();
@@ -33,16 +31,9 @@ export {
 
 
         std::chrono::hh_mm_ss time_interval{ tpLoc - today };
-
-        //auto r = std::chrono::local_time<std::chrono::seconds>(now_point);
+         
         auto point = std::chrono::time_point_cast<std::chrono::seconds>(tpLoc);
         return point;
-
-        /*/
-         * inline auto now() {
-			return std::chrono::time_point_cast<std::chrono::local_seconds::duration>(std::chrono::system_clock::now());
-		}
-         */
     }
 
     /**
@@ -51,7 +42,7 @@ export {
      */
 
      //  also we need transform functions to make string from enum..
-    std::string sysSecondsToString(std::chrono::local_seconds pt) {
+    std::string localSecondsToString(std::chrono::local_seconds pt) {
         auto r = std::format("{:%F %r}", pt);
         return r;
     }
@@ -65,7 +56,7 @@ export {
      *  that's why I placed it separatedly. You can use any transformation type/form
      *  (for example BETTER_ENUM https://github.com/aantron/better-enums)
      */
-    std::optional<std::chrono::local_seconds> sysSecondsFromString(const std::string& s) {
+    std::optional<std::chrono::local_seconds> localSecondsFromString(const std::string& s) {
         using namespace std::literals;
         using namespace std::chrono;
 
@@ -83,7 +74,7 @@ export {
      *  with SysDays we have to create a few service classes
      *  specializations (traits) in sqlite_orm namespace.
      */
-    namespace sqlite_orm {
+export    namespace sqlite_orm {
 
         /**
          *  First of all is a type_printer template class.
@@ -107,7 +98,7 @@ export {
         struct statement_binder<std::chrono::local_seconds> {
 
             int bind(sqlite3_stmt* stmt, int index, const std::chrono::local_seconds& value) const {
-                return statement_binder<std::string>().bind(stmt, index, sysSecondsToString(value));
+                return statement_binder<std::string>().bind(stmt, index, localSecondsToString(value));
             }
         };
 
@@ -118,7 +109,7 @@ export {
         template<>
         struct field_printer<std::chrono::local_seconds> {
             std::string operator()(const std::chrono::local_seconds& t) const {
-                return sysSecondsToString(t);
+                return localSecondsToString(t);
             }
         };
 
@@ -133,7 +124,7 @@ export {
         struct row_extractor<std::chrono::local_seconds> {
             std::chrono::local_seconds extract(const char* row_value) const {
                 if (row_value) {
-                    auto sd = sysSecondsFromString(row_value);
+                    auto sd = localSecondsFromString(row_value);
                     if (sd) {
                         return sd.value();
                     }
@@ -161,6 +152,6 @@ export {
     ////////////////////////////////
     /// end local_seconds binding as TEXT
     ////////////////////////////////
-}
+
 
 #endif

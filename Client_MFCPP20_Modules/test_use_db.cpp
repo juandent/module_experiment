@@ -33,7 +33,7 @@ void test_db()
 
 
 	std::chrono::sys_days hoy = today();
-	std::chrono::local_seconds ahora = timestamp();
+	std::chrono::local_seconds ahora = date_time();
 
 	Password pwd{ -1, "xy65", hoy, 1,  ahora };
 
