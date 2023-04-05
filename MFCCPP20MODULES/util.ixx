@@ -24,6 +24,11 @@ module;
 #include <GridCellBase.h>
 #include <sstream>
 #include <format>
+#include <iostream>
+#include <sstream>
+#include <locale>
+#include <iomanip>
+
 
 
 
@@ -189,6 +194,43 @@ export namespace util
 		return static_cast<T&>(p);
 	}
 
+	export inline void ltrim( std::string& source)
+	{
+		source.erase(source.begin(), std::find_if(source.begin(), source.end(), [](char ch)
+			{
+				return !std::isspace(ch, std::locale{});
+			}));
+	}
+
+	export inline void rtrim(std::string& source)
+	{
+		source.erase(std::find_if(source.rbegin(), source.rend(), [](char ch)
+			{
+				return !std::isspace(ch, std::locale{});
+			}).base(), source.end());
+	}
+	export inline void trim(std::string& source)
+	{
+		ltrim(source);
+		rtrim(source);
+	}
+	export inline std::string ltrim_copy(std::string s)
+	{
+		ltrim(s);
+		return s;
+	}
+	export inline std::string rtrim_copy(std::string s)
+	{
+		rtrim(s);
+		return s;
+	}
+	export inline std::string trim_copy(std::string s)
+	{
+		trim(s);
+		return s;
+	}
+
+
 	// convert string to uppercase
 	export inline std::string touppercase(const std::string& name)
 	{
@@ -321,6 +363,26 @@ export namespace util
 		std::ostringstream os;
 		os << ymd;
 		return os.str();
+	}
+
+	export std::string to_string(std::chrono::local_days dp)
+	{
+		std::chrono::year_month_day ymd{ dp };
+		std::ostringstream os;
+		os << ymd;
+		return os.str();
+	}
+
+	export std::string to_string(std::chrono::sys_seconds dp)
+	{
+		auto str = std::format("{:%F %r}", dp);
+		return str;
+	}
+
+	export std::string to_string(std::chrono::local_seconds dp)
+	{
+		auto str = std::format("{:%F %r}", dp);
+		return str;
 	}
 
 	export CString to_cstring(std::chrono::sys_days dp)
@@ -807,10 +869,10 @@ export namespace util
 
 		ostringstream& setw(ostringstream& os, int size)
 		{
-#if 0
+#if 0	
 			os << std::setw(size);
 			return os;
-#else
+#else	// workaround internal compiler error
 			using type = decltype(std::setw(size));
 			type s = std::setw(size);
 			os << s;
@@ -818,7 +880,7 @@ export namespace util
 #endif
 		}
 
-	public:
+public:
 		MoneytaryHelper()
 			: m_posSignEliminator{ new costaRicaNumPunct{ "" } },
 #ifndef PLAYING_WITH_LOCALES
@@ -856,20 +918,20 @@ export namespace util
 			auto temp = m_crOs.str();
 			return temp;
 		}
-		string putColones(Money money, int width)
+		string putColones(Money money, int width=0)
 		{
 			m_crOs.str("");
 			m_crOs << right;
-			setw(m_crOs, width);
+			if (width) setw(m_crOs, width);
 			m_crMoney_put.put(m_crOs, false, m_crOs, ' ', 100 * money.getAsLongDouble()); //   money.rep()
 			auto temp = m_crOs.str();
 			return temp;
 		}
-		string putDollars(Money money, int width)
+		string putDollars(Money money, int width=0)
 		{
 			m_usOs.str("");
 			m_usOs << right;
-			setw(m_usOs, width);
+			if(width) setw(m_usOs, width);
 			m_usMoney_put.put(m_usOs, false, m_usOs, ' ', 100 * money.getAsLongDouble());	// money.rep());
 			auto temp = m_usOs.str();
 			return temp;
@@ -879,7 +941,6 @@ export namespace util
 #if 1
 			auto readVal = 0.0L;
 			m_crIs.str(asColones);
-
 			using Iter = std::istreambuf_iterator<char>;
 			using MoneyGet = std::money_get<char, Iter>;
 
@@ -906,7 +967,7 @@ export namespace util
 #if 1
 			auto readVal = 0.0L;
 			m_usIs.str(asDollars);
-
+		
 			using Iter = std::istreambuf_iterator<char>;
 			using MoneyGet = std::money_get<char, Iter>;
 
@@ -1051,13 +1112,34 @@ Dolares::operator ::std::wstring()
 
 
 
-void useUtil2()
+
+/////////////////////////////////////// -- temporary... erase it soon
+
+
+export namespace getting_money
 {
-	util::MoneytaryHelper helper;
-	Colones money{ 1000.02 };
-	auto ex = util::to_string(money);
-	auto str = helper.putColones(money, 16);
-	auto colones = helper.getColones("4,500.55");
+	void main()
+	{
+		std::istringstream in("$1,234.5688"); //$2.32 $3.33");		//in("$1,234.56 2.32 USD  3.33");
+		std::istringstream in2("2.32 USD");
+		long double v1, v2;
+		std::string v3;
+
+		in.imbue(std::locale("en_US.UTF-8"));
+		skipws(in);
+		in2.imbue(std::locale("en_US.UTF-8"));
+
+		in >> std::get_money(v1); //>> std::get_money(v2) >> std::get_money(v3, true);
+		in2 >> std::get_money(v2);
+
+		
+
+		if (in)
+			std::cout << std::quoted(in.str()) << " parsed as: "
+			<< v1 << '\n';  //<< ", " << v2 << ", " << v3 << '\n';
+		else
+			std::cout << "Parse failed";
+	}
 }
 
-
+//////////////////////////////////////////////////

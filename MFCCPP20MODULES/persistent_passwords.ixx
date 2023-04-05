@@ -12,6 +12,7 @@ export module persistent_passwords;
 export import util;
 export import date_binding;
 export import fixed_point;
+export import date_time_binding;
 
 
 export namespace persistent_passwords
@@ -48,10 +49,12 @@ export namespace persistent_passwords
 		std::string password;
 		std::chrono::sys_days begining_date;
 		int fkey_location;
+		std::chrono::local_seconds begining_timestamp;
 
 		std::string simple_dump() const
 		{
-			std::string str = std::to_string(id) + " - "s + password + " "s + util::to_string(begining_date);
+			std::string str = std::to_string(id) + " - "s + password + " "s + util::to_string(begining_date) + " - " + util::to_string(begining_timestamp);
+
 			return str;
 		}
 	};
@@ -106,6 +109,7 @@ export namespace persistent_passwords
 					make_column("password", &Password::password),
 					make_column("begin_date", &Password::begining_date),
 					make_column("fkey_location", &Password::fkey_location),
+					make_column("timestamp", &Password::begining_timestamp),
 					foreign_key(&Password::fkey_location).references(&Location::id)));
 
 

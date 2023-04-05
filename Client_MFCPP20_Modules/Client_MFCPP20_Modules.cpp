@@ -77,8 +77,13 @@ std::ostringstream& setw(std::ostringstream& os, int size)
 	return os;
 }
 
+void test_db();
+
+
 BOOL CClientMFCPP20ModulesApp::InitInstance()
 {
+	test_db();
+
 	std::ostringstream os;
 	setw(os, 16);
 	useUtil();
