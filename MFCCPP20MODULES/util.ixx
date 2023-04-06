@@ -391,6 +391,12 @@ export namespace util
 		return to_cstring(str);
 	}
 
+	export CString to_cstring(std::chrono::local_days dp)
+	{
+		auto str = to_string(dp);
+		return to_cstring(str);
+	}
+
 	export inline std::string from_cstring(const CString& msg)
 	{
 		auto m = static_cast<LPCTSTR>(msg);

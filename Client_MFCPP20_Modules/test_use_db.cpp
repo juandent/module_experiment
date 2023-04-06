@@ -32,7 +32,7 @@ void test_db()
 	db.replace(loc);
 
 
-	std::chrono::sys_days hoy = today();
+	std::chrono::local_days hoy = today();
 	std::chrono::local_seconds ahora = date_time();
 
 	Password pwd{ -1, "xy65", hoy, 1,  ahora };
@@ -41,7 +41,7 @@ void test_db()
 
 	auto str = pwd.simple_dump();
 
-	db_.get_all<Password>();
+//	db_.get_all<Password>();
 
 	// db_type db = database();
 	// auto vec = db.get_all<Password>();

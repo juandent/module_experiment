@@ -162,6 +162,7 @@
     <ClCompile Include="date_as_string.cpp" />
     <ClCompile Include="date_as_string.ixx" />
     <ClCompile Include="date_binding.ixx" />
+    <ClCompile Include="sysdate_binding.ixx" />
     <ClCompile Include="db_updater.ixx" />
     <ClCompile Include="error.ixx" />
     <ClCompile Include="fixed_point.ixx" />

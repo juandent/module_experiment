@@ -11,6 +11,7 @@ export module persistent_passwords;
 
 export import util;
 export import date_binding;
+export import sysdate_binding;
 export import fixed_point;
 export import date_time_binding;
 
@@ -47,7 +48,7 @@ export namespace persistent_passwords
 	{
 		int id;
 		std::string password;
-		std::chrono::sys_days begining_date;
+		std::chrono::local_days begining_date;
 		int fkey_location;
 		std::chrono::local_seconds begining_timestamp;
 
