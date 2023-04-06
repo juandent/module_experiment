@@ -20,13 +20,13 @@ export module date_binding;
 /// local_days binding as TEXT
 /// ///////////////////////////
 
-//export {
 
+/*
+ * need to get local time via zoned_time; this is the true today() function because it uses current_zone()
+ */
 
 export  std::chrono::local_days today() {
         namespace chr = std::chrono;
-
-        // const auto today = std::chrono::local_days{ floor<std::chrono::days>(std::chrono::system_clock::now()) };
 
         auto now_point = chr::system_clock::now();
 
@@ -41,8 +41,8 @@ export  std::chrono::local_days today() {
      *  Let's make it `TEXT`
      */
 
-     //  also we need transform functions to make string from enum..
-    std::string sysDaysToString(std::chrono::local_days pt) {
+     //  also we need transform functions to make string from local_days
+    std::string localDaysToString(std::chrono::local_days pt) {
         auto r = std::format("{:%F}", pt);
         return r;
     }
@@ -54,9 +54,8 @@ export  std::chrono::local_days today() {
      *  a scenario for this case.
      *  These functions are just helpers. They will be called from several places
      *  that's why I placed it separatedly. You can use any transformation type/form
-     *  (for example BETTER_ENUM https://github.com/aantron/better-enums)
      */
-    std::optional<std::chrono::local_days> sysDaysFromString(const std::string& s) {
+    std::optional<std::chrono::local_days> localDaysFromString(const std::string& s) {
         using namespace std::literals;
         using namespace std::chrono;
 
@@ -71,7 +70,7 @@ export  std::chrono::local_days today() {
 
     /**
      *  This is where magic happens. To tell sqlite_orm how to act
-     *  with SysDays we have to create a few service classes
+     *  with local_days we have to create a few service classes
      *  specializations (traits) in sqlite_orm namespace.
      */
 export  namespace sqlite_orm {
@@ -79,7 +78,7 @@ export  namespace sqlite_orm {
         /**
          *  First of all is a type_printer template class.
          *  It is responsible for sqlite type string representation.
-         *  We want SysDays to be `TEXT` so let's just derive from
+         *  We want local_days to be `TEXT` so let's just derive from
          *  text_printer. Also there are other printers: real_printer and
          *  integer_printer. We must use them if we want to map our type to `REAL` (double/float)
          *  or `INTEGER` (int/long/short etc) respectively.
@@ -89,7 +88,7 @@ export  namespace sqlite_orm {
 
         /**
          *  This is a binder class. It is used to bind c++ values to sqlite queries.
-         *  Here we have to create sysday string representation and bind it as string.
+         *  Here we have to create local_days string representation and bind it as string.
          *  Any statement_binder specialization must have `int bind(sqlite3_stmt*, int, const T&)` function
          *  which returns bind result. Also you can call any of `sqlite3_bind_*` functions directly.
          *  More here https://www.sqlite.org/c3ref/bind_blob.html
@@ -98,7 +97,7 @@ export  namespace sqlite_orm {
         struct statement_binder<std::chrono::local_days> {
 
             int bind(sqlite3_stmt* stmt, int index, const std::chrono::local_days& value) const {
-                return statement_binder<std::string>().bind(stmt, index, sysDaysToString(value));
+                return statement_binder<std::string>().bind(stmt, index, localDaysToString(value));
             }
         };
 
@@ -109,13 +108,13 @@ export  namespace sqlite_orm {
         template<>
         struct field_printer<std::chrono::local_days> {
             std::string operator()(const std::chrono::local_days& t) const {
-                return sysDaysToString(t);
+                return localDaysToString(t);
             }
         };
 
         /**
          *  This is a reverse operation: here we have to specify a way to transform string received from
-         *  database to our sysdays object. Here we call `sysDaysFromString` and throw `std::runtime_error` if it returns null.
+         *  database to our local_days object. Here we call `localDaysFromString` and throw `std::runtime_error` if it returns null.
          *  Every `row_extractor` specialization must have `extract(const char*)`, `extract(sqlite3_stmt *stmt, int columnIndex)`
          *	and `extract(sqlite3_value* value)`
          *  functions which return a mapped type value.
@@ -124,7 +123,7 @@ export  namespace sqlite_orm {
         struct row_extractor<std::chrono::local_days> {
             std::chrono::local_days extract(const char* row_value) const {
                 if (row_value) {
-                    auto sd = sysDaysFromString(row_value);
+                    auto sd = localDaysFromString(row_value);
                     if (sd) {
                         return sd.value();
                     }
@@ -152,6 +151,5 @@ export  namespace sqlite_orm {
     ////////////////////////////////
     /// end local_days binding as TEXT
     ////////////////////////////////
-// }
 
 #endif
