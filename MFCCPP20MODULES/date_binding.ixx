@@ -28,12 +28,15 @@ export module date_binding;
 export  std::chrono::local_days today() {
         namespace chr = std::chrono;
 
-        auto now_point = chr::system_clock::now();
-
-        auto tpLoc = chr::zoned_time{ chr::current_zone(), now_point }.get_local_time();
-        auto day = chr::floor<chr::days>(tpLoc);
-
-        return day;
+        const auto local_time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+        return chr::floor<chr::days>(local_time);
+        //
+        // auto now_point = chr::system_clock::now();
+        //
+        // auto tpLoc = chr::zoned_time{ chr::current_zone(), now_point }.get_local_time();
+        // auto day = chr::floor<chr::days>(tpLoc);
+        //
+        // return day;
     }
 
     /**

@@ -3,6 +3,7 @@ module;
 #include <compare>
 #include <string>
 #include <cassert>
+#include <chrono>
 //#include <iostream>
 //#include <compare>
 
@@ -34,6 +35,16 @@ export void useUtil()
 	assert(ltrim_copy(str) == "$23,800.75");
 
 	getting_money::main();
+
+	namespace chr = std::chrono;
+
+	auto&& tz = chr::get_tzdb();
+	auto&& vec = tz.zones;
+	for (auto& x : vec)
+	{
+		auto str = x.name();
+		int i = 0;
+	}
 
 	//auto n = now();
 }

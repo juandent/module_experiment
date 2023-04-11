@@ -24,16 +24,22 @@ export module date_time_binding;
 export   std::chrono::local_seconds date_time() {
         namespace chr = std::chrono;
 
-        auto now_point = chr::system_clock::now();
+        const auto local_time = std::chrono::current_zone()->to_local(std::chrono::system_clock::now());
+        auto point = std::chrono::time_point_cast<std::chrono::seconds>(local_time);
+        return point;
+
+#if 0
+	auto now_point = chr::system_clock::now();
 
         auto tpLoc = chr::zoned_time{ chr::current_zone(), now_point }.get_local_time();
         auto today = chr::floor<chr::days>(tpLoc );
 
 
-        std::chrono::hh_mm_ss time_interval{ tpLoc - today };
+        //std::chrono::hh_mm_ss time_interval{ tpLoc - today };
          
         auto point = std::chrono::time_point_cast<std::chrono::seconds>(tpLoc);
         return point;
+#endif
     }
 
     /**

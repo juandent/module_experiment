@@ -15,6 +15,7 @@
 
 #include "ControlsTest.h"
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -71,6 +72,7 @@ void useUtil();
 #include <iomanip>
 #include <sstream>
 
+
 std::ostringstream& setw(std::ostringstream& os, int size)
 {
 	os << std::setw(size);
@@ -82,6 +84,7 @@ void test_db();
 
 BOOL CClientMFCPP20ModulesApp::InitInstance()
 {
+
 	test_db();
 
 	std::ostringstream os;

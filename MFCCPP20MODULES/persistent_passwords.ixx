@@ -51,6 +51,7 @@ export namespace persistent_passwords
 		std::chrono::local_days begining_date;
 		int fkey_location;
 		std::chrono::local_seconds begining_timestamp;
+		std::chrono::zoned_seconds zoned_point; //     zoned_time<std::chrono::seconds>
 
 		std::string simple_dump() const
 		{
